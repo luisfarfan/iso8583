@@ -9,29 +9,21 @@ class FullCargaTipoOperacion(Enum):
     OPERACION_CONSULTA_SALDO = 5
 
 
-class FullCargaOperationsRequest(Enum):
-    ECHO_TEST = EchoTestRequest()
-    OPERACION_VENTA = OperacionVentaRequest()
-    OPERACION_DEVOLUCION = OperacionDevolucionRequest()
-    OPERACION_CONSULTA = OperacionConsultaRequest()
-    OPERACION_CONSULTA_SALDO = OperacionConsultaSaldoRequest()
+class FullCargaTramaProperties(object):
+    bytesValue = None
 
-
-class FullCargaOperationsResponse(Enum):
-    ECHO_TEST = EchoTestResponse()
-    OPERACION_VENTA = OperacionVentaResponse()
-    OPERACION_DEVOLUCION = OperacionDevolucionResponse()
-    OPERACION_CONSULTA = OperacionConsultaResponse()
-    OPERACION_CONSULTA_SALDO = OperacionConsultaSaldoResponse()
-
-
-class FullCargaTramaProperties:
-    def __init__(self, order, n_iso, campo, tipo, tamanio):
+    def __init__(self, order, iso, campo, tipo, tamanio):
         self.order = order
-        self.n_iso = n_iso
+        self.iso = iso
         self.campo = campo
         self.tipo = tipo
         self.tamanio = tamanio
+
+    def setBytes(self, bytes):
+        self.bytesValue = bytes
+
+    def getBytes(self):
+        return self.bytesValue
 
 
 class FullCargaTypeField(Enum):
@@ -47,23 +39,23 @@ class FullCargaCommonFields(object):
     # ToDo falta ajustar los campos, con las propiedades exactas que dicen en la documentación
     def __init__(self):
         self.MESSAGE_LENGTH = FullCargaTramaProperties(0, None, 'MESSAGE_LENGTH', FullCargaTypeField.HEXA, 2)
-        self.TPDU = FullCargaTramaProperties(1, None, 'TPDU', FullCargaTypeField.HEXA, 2)
+        self.TPDU = FullCargaTramaProperties(1, None, 'TPDU', FullCargaTypeField.HEXA, 5)
         self.TYPE = FullCargaTramaProperties(2, None, 'TYPE', FullCargaTypeField.HEXA, 2)
-        self.BITMAP = FullCargaTramaProperties(3, None, 'BITMAP', FullCargaTypeField.HEXA, 2)
+        self.BITMAP = FullCargaTramaProperties(3, None, 'BITMAP', FullCargaTypeField.HEXA, 8)
 
 
-class EchoTestRequest:
+class EchoTestRequest(FullCargaCommonFields):
     def __init__(self):
-        super(FullCargaCommonFields, self).__init__()
+        super(EchoTestRequest, self).__init__()
         self.PROCCES_CODE = FullCargaTramaProperties(4, 3, 'PROCCES CODE', FullCargaTypeField.BCD, 3)
         self.STAN = FullCargaTramaProperties(5, 11, 'STAN', FullCargaTypeField.BCD, 3)
         self.TIME = FullCargaTramaProperties(6, 12, 'TIME', FullCargaTypeField.BCD, 3)
         self.DATE = FullCargaTramaProperties(7, 13, 'DATE', FullCargaTypeField.BCD, 2)
 
 
-class EchoTestResponse:
+class EchoTestResponse(FullCargaCommonFields):
     def __init__(self):
-        super(FullCargaCommonFields, self).__init__()
+        super(EchoTestResponse, self).__init__()
         self.PROCCES_CODE = FullCargaTramaProperties(4, 3, 'PROCCES CODE', FullCargaTypeField.BCD, 3)
         self.STAN = FullCargaTramaProperties(5, 11, 'STAN', FullCargaTypeField.BCD, 3)
         self.TIME = FullCargaTramaProperties(6, 12, 'TIME', FullCargaTypeField.BCD, 3)
@@ -71,41 +63,57 @@ class EchoTestResponse:
         self.RESPONSE_CODE = FullCargaTramaProperties(8, 13, 'RESPONSE CODE', FullCargaTypeField.BCD, 2)
 
 
-class OperacionVentaRequest:
+class OperacionVentaRequest(FullCargaCommonFields):
     def __init__(self):
-        super(FullCargaCommonFields, self).__init__()
+        super(OperacionVentaRequest, self).__init__()
 
 
-class OperacionVentaResponse:
+class OperacionVentaResponse(FullCargaCommonFields):
     def __init__(self):
-        super(FullCargaCommonFields, self).__init__()
+        super(OperacionVentaResponse, self).__init__()
 
 
-class OperacionDevolucionRequest:
+class OperacionDevolucionRequest(FullCargaCommonFields):
     def __init__(self):
-        super(FullCargaCommonFields, self).__init__()
+        super(OperacionDevolucionRequest, self).__init__()
 
 
-class OperacionDevolucionResponse:
+class OperacionDevolucionResponse(FullCargaCommonFields):
     def __init__(self):
-        super(FullCargaCommonFields, self).__init__()
+        super(OperacionDevolucionResponse, self).__init__()
 
 
-class OperacionConsultaRequest:
+class OperacionConsultaRequest(FullCargaCommonFields):
     def __init__(self):
-        super(FullCargaCommonFields, self).__init__()
+        super(OperacionConsultaRequest, self).__init__()
 
 
-class OperacionConsultaResponse:
+class OperacionConsultaResponse(FullCargaCommonFields):
     def __init__(self):
-        super(FullCargaCommonFields, self).__init__()
+        super(OperacionConsultaResponse, self).__init__()
 
 
-class OperacionConsultaSaldoRequest:
+class OperacionConsultaSaldoRequest(FullCargaCommonFields):
     def __init__(self):
-        super(FullCargaCommonFields, self).__init__()
+        super(OperacionConsultaSaldoRequest, self).__init__()
 
 
-class OperacionConsultaSaldoResponse:
+class OperacionConsultaSaldoResponse(FullCargaCommonFields):
     def __init__(self):
-        super(FullCargaCommonFields, self).__init__()
+        super(OperacionConsultaSaldoResponse, self).__init__()
+
+
+class FullCargaOperationsRequest(Enum):
+    ECHO_TEST = EchoTestRequest()
+    OPERACION_VENTA = OperacionVentaRequest()
+    OPERACION_DEVOLUCION = OperacionDevolucionRequest()
+    OPERACION_CONSULTA = OperacionConsultaRequest()
+    OPERACION_CONSULTA_SALDO = OperacionConsultaSaldoRequest()
+
+
+class FullCargaOperationsResponse(Enum):
+    ECHO_TEST = EchoTestResponse()
+    OPERACION_VENTA = OperacionVentaResponse()
+    OPERACION_DEVOLUCION = OperacionDevolucionResponse()
+    OPERACION_CONSULTA = OperacionConsultaResponse()
+    OPERACION_CONSULTA_SALDO = OperacionConsultaSaldoResponse()
