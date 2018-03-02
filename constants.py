@@ -73,6 +73,20 @@ class OperacionVentaRequest(FullCargaCommonFields):
     def __init__(self):
         super(OperacionVentaRequest, self).__init__()
         self.TERMINAL_ID = FullCargaTramaProperties(9, 41, 'TERMINAL ID', FullCargaTypeField.ASCII, 8)
+        self.PRIVATE_DATOS_OPERACION = FullCargaTramaProperties(10, 60, 'PRIVATE (Datos de operación)', )
+
+    def datos_operacion(self):
+        return {
+            'longitud': FullCargaTramaProperties(self.PRIVATE_DATOS_OPERACION.order, self.PRIVATE_DATOS_OPERACION.iso,
+                                                 'longitud', FullCargaTypeField.BCD, 2),
+            'codigo_producto': FullCargaTramaProperties(self.PRIVATE_DATOS_OPERACION.order,
+                                                        self.PRIVATE_DATOS_OPERACION.iso,
+                                                        'longitud', FullCargaTypeField.BCD, 2),
+            'Usuario': FullCargaTramaProperties(self.PRIVATE_DATOS_OPERACION.order, self.PRIVATE_DATOS_OPERACION.iso,
+                                                'longitud', FullCargaTypeField.BCD, 2),
+            'ref_h2h': FullCargaTramaProperties(self.PRIVATE_DATOS_OPERACION.order, self.PRIVATE_DATOS_OPERACION.iso,
+                                                'longitud', FullCargaTypeField.BCD, 2),
+        }
 
 
 class OperacionVentaResponse(FullCargaCommonFields):
