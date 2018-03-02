@@ -9,7 +9,6 @@ timeBetweenEcho = 5  # in seconds
 
 bigEndian = True
 
-
 def send_to_socket(data):
     s = None
     for res in socket.getaddrinfo(serverIP, serverPort, socket.AF_UNSPEC, socket.SOCK_STREAM):
