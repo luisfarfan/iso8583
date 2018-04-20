@@ -73,7 +73,7 @@ class OperacionVentaRequest(FullCargaCommonFields):
     def __init__(self):
         super(OperacionVentaRequest, self).__init__()
         self.TERMINAL_ID = FullCargaTramaProperties(9, 41, 'TERMINAL ID', FullCargaTypeField.ASCII, 8)
-        self.PRIVATE_DATOS_OPERACION = FullCargaTramaProperties(10, 60, 'PRIVATE (Datos de operación)', )
+        # self.PRIVATE_DATOS_OPERACION = FullCargaTramaProperties(10, 60, 'PRIVATE (Datos de operación)', )
 
     def datos_operacion(self):
         return {

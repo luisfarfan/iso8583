@@ -6,13 +6,15 @@ class FullCargaProccess:
 
 
 class FullCargaParser(FullCargaProccess):
+    # tamaño del ISO que se debe de calcular
     LENGTH_ISO = 0
+    # bytearray de envio o respuesta, el socket de igual manera va responder con un bytearray
     BYTE_ARRAY = bytearray(0)
     OPERACION_RESPONSE_DICT = {}
     OPERACION_RESPONSE_LIST = []
 
     def __init__(self, tipo_operacion):
-        # if tipo_operacion:
+        # mapeando en un diccionario los diferentes tipos de operaciones de ENVIO para FULLCARGA
         self.OPERACION_REQUEST = {
             FullCargaTipoOperacion.ECHO_TEST.value: FullCargaOperationsRequest.ECHO_TEST.value,
             FullCargaTipoOperacion.OPERACION_VENTA.value: FullCargaOperationsRequest.OPERACION_VENTA.value,
@@ -21,6 +23,7 @@ class FullCargaParser(FullCargaProccess):
             FullCargaTipoOperacion.OPERACION_CONSULTA_SALDO.value: FullCargaOperationsRequest.OPERACION_CONSULTA_SALDO.value,
         }.get(tipo_operacion)
 
+        # mapeando en un diccionario los diferentes tipos de operaciones de RESPUESTA para FULLCARGA
         self.OPERACION_RESPONSE = {
             FullCargaTipoOperacion.ECHO_TEST.value: FullCargaOperationsResponse.ECHO_TEST.value,
             FullCargaTipoOperacion.OPERACION_VENTA.value: FullCargaOperationsResponse.OPERACION_VENTA.value,
@@ -28,8 +31,12 @@ class FullCargaParser(FullCargaProccess):
             FullCargaTipoOperacion.OPERACION_CONSULTA.value: FullCargaOperationsResponse.OPERACION_CONSULTA.value,
             FullCargaTipoOperacion.OPERACION_CONSULTA_SALDO.value: FullCargaOperationsResponse.OPERACION_CONSULTA_SALDO.value,
         }.get(tipo_operacion)
+
+        # almacenando el valor de respuesta en formato dict
         self.OPERACION_RESPONSE_DICT = self.OPERACION_RESPONSE.__dict__
+        # calculando el length del ISO de envio o respuesta
         self.__calculateLength()
+        # creando una lista segun el tipo de operacion, y se ordena segun su campo "order"
         self.__operationResponseToList()
 
     def __calculateLength(self):
@@ -48,7 +55,6 @@ class FullCargaParser(FullCargaProccess):
         return rawResponse
 
     def getValueFromISO(self, iso, parse=True):
-        isoreturn = None
         for key in self.OPERACION_RESPONSE_DICT:
             if self.OPERACION_RESPONSE_DICT[key].iso == iso:
                 isoreturn = self.__getValueFromIso(self.OPERACION_RESPONSE_DICT[key])
@@ -57,6 +63,7 @@ class FullCargaParser(FullCargaProccess):
                         return self.__convertToRealValue(self.BYTE_ARRAY[isoreturn[0]:isoreturn[0] + isoreturn[1]],
                                                          self.OPERACION_RESPONSE_DICT[key].tipo.value)
                     return self.BYTE_ARRAY[isoreturn[0]:isoreturn[0] + isoreturn[1]]
+        return None
 
     def __setValues(self):
         for i, key in enumerate(self.OPERACION_RESPONSE_LIST):
