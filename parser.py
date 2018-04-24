@@ -78,6 +78,7 @@ class FullCargaParser(FullCargaProccess):
                 break
         return initial, iso_body.tamanio
 
+    # @ToDo faltaria poner las demas validaciones segun tipo de parametro
     def __convertToRealValue(self, bytes, type):
         if type == FullCargaTypeField.HEXA.value:
             return int(bytes.hex(), 16)

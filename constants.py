@@ -1,6 +1,13 @@
+"""
+Hecho por Luis Farfán
+link de referencia de especificaciones : https://es.wikipedia.org/wiki/ISO_8583
+
+"""
+
 from enum import Enum
 
 
+# Tipos de operaciones segun el documento de especificación
 class FullCargaTipoOperacion(Enum):
     ECHO_TEST = 1
     OPERACION_VENTA = 2
@@ -9,6 +16,7 @@ class FullCargaTipoOperacion(Enum):
     OPERACION_CONSULTA_SALDO = 5
 
 
+# Son las propiedades que tiene cada parametro de envio y respuesta en la trama de fullcarga
 class FullCargaTramaProperties(object):
     bytesValue = None
 

@@ -17,9 +17,14 @@ k = total - (256 * j)
 byteTrama[0] = int(j)
 byteTrama[1] = int(k)
 byteTrama = byteTrama.hex().encode()
+# encodeo en bytes lo que se va enviar
 iso_to_send = binascii.unhexlify(byteTrama) + binascii.unhexlify(iso.getRawIso())
+# enviando al socket
 response_socket = send_to_socket(iso_to_send)
-print(response_socket)
-# fp = parser.FullCargaParser(1)
-# fp.setByteArrayISO(response_socket)
-# print(fp.getValueFromISO(39))
+# print(response_socket)
+fp = parser.FullCargaParser(1)
+# seteando el ISO en el parset
+fp.setByteArrayISO(response_socket)
+# leer cada respuesta segun su ISO
+# print(fp.getValueFromISO(3))
+print(fp.getRawIso())
